@@ -225,5 +225,7 @@ class epicLinkCrawler {
         return this;
     }
 }
+exports.epicLinkCrawler = epicLinkCrawler;
 //Export Module
 module.exports.epicLinkCrawler = epicLinkCrawler;
+//# sourceMappingURL=epicLinkCrawler.js.map
