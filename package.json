@@ -1,0 +1,40 @@
+{
+  "name": "epic-link-crawler",
+  "version": "1.0.0",
+  "description": "A simple in depth links crawler. You can easily collect all the links available on a website.",
+  "main": "./src/epicLinkCrawler",
+  "scripts": {
+    "start": "node ./src/epicLinkCrawler"
+  },
+  "author": "Saif Ali Khan",
+  "license": "MIT",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "extract-domain": "^2.2.1",
+    "request": "^2.88.2",
+    "url-parse": "^1.4.7"
+  },
+  "keywords": [
+    "html",
+    "deep",
+    "crawler",
+    "collect",
+    "links",
+    "scraper"
+  ],
+  "devDependencies": {
+    "@types/cheerio": "^0.22.18",
+    "@types/events": "^3.0.0",
+    "@types/node": "^14.0.1",
+    "@types/request": "^2.48.5",
+    "@types/url-parse": "^1.4.3"
+  },
+  "homepage": "https://github.com/Saff-Elli-Khan/epic-link-crawler#readme",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Saff-Elli-Khan/epic-link-crawler.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Saff-Elli-Khan/epic-link-crawler/issues"
+  }
+}
