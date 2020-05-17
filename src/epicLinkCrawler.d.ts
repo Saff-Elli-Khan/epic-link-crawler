@@ -3,12 +3,13 @@ declare type options = {
     strict?: Boolean;
 };
 export declare class epicLinkCrawler {
-    private urlObject;
     private url;
+    private urlObject;
     private domain;
     private urlBase;
-    private options;
     private events;
+    private $;
+    protected options: options;
     constructor(url: string, { depth, strict }?: options);
     validUrl(url: string): Promise<unknown>;
     config: ({ depth, strict }?: options) => this;

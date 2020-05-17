@@ -11,6 +11,7 @@ const url_parse_1 = __importDefault(require("url-parse"));
 const extract_domain_1 = __importDefault(require("extract-domain"));
 //The Class
 class epicLinkCrawler {
+    //Constructor
     constructor(url, { depth = 1, strict = true } = {}) {
         this.url = "";
         this.domain = "";
@@ -36,7 +37,7 @@ class epicLinkCrawler {
             let self = this;
             if (typeof content == "undefined")
                 content = "";
-            let $ = cheerio_1.default.load(content);
+            let $ = self.$.load(content);
             let relativeLinks = $("a[href^='/']").not("[rel='nofollow']");
             let absoluteLinks = $("a[href^='http']").not("[rel='nofollow']");
             let relativeLinksArray = [];
@@ -219,6 +220,7 @@ class epicLinkCrawler {
         require.resolve("url-parse");
         //Assignment
         this.events = new events_1.default.EventEmitter();
+        this.$ = cheerio_1.default;
         this.urlObject = new url_parse_1.default(this.url);
         this.url = url.replace(/^\/+|\/+$/g, "");
         this.domain = extract_domain_1.default(this.url);
