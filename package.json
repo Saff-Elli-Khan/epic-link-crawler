@@ -10,6 +10,11 @@
   "author": "Saif Ali Khan",
   "license": "MIT",
   "dependencies": {
+    "@types/cheerio": "^0.22.18",
+    "@types/events": "^3.0.0",
+    "@types/node": "^14.0.1",
+    "@types/request": "^2.48.5",
+    "@types/url-parse": "^1.4.3",
     "cheerio": "^1.0.0-rc.3",
     "extract-domain": "^2.2.1",
     "request": "^2.88.2",
@@ -25,13 +30,7 @@
     "links",
     "scraper"
   ],
-  "devDependencies": {
-    "@types/cheerio": "^0.22.18",
-    "@types/events": "^3.0.0",
-    "@types/node": "^14.0.1",
-    "@types/request": "^2.48.5",
-    "@types/url-parse": "^1.4.3"
-  },
+  "devDependencies": {},
   "homepage": "https://github.com/Saff-Elli-Khan/epic-link-crawler#readme",
   "repository": {
     "type": "git",
