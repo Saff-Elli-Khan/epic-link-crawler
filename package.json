@@ -1,8 +1,8 @@
 {
   "name": "epic-link-crawler",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A simple in depth links crawler. You can easily collect all the links available on a website.",
-  "main": "./src/epicLinkCrawler",
+  "main": "./src/epicLinkCrawler.js",
   "types": "./src/epicLinkCrawler.d.ts",
   "scripts": {
     "start": "node ./src/epicLinkCrawler"
