@@ -38,6 +38,14 @@ class epicLinkCrawler {
             if (typeof content == "undefined")
                 content = "";
             let $ = self.$.load(content);
+            if ($("meta[name='robots']").length > 0) {
+                if ($("meta[name='robots']").attr("content") == "noindex, nofollow" ||
+                    $("meta[name='robots']").attr("content") == "noindex,nofollow" ||
+                    $("meta[name='robots']").attr("content") == "noindex" ||
+                    $("meta[name='robots']").attr("content") == "nofollow") {
+                    return [];
+                }
+            }
             let relativeLinks = $("a[href^='/']").not("[rel='nofollow']");
             let absoluteLinks = $("a[href^='http']").not("[rel='nofollow']");
             let relativeLinksArray = [];
