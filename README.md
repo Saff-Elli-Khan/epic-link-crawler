@@ -46,7 +46,7 @@ new epicLinkCrawler("https://google.com")
     'https://google.com/intl/en/policies/privacy',
     'https://google.com/intl/en/policies/terms'
     ]
-    
+
  */
 ```
 
@@ -54,5 +54,5 @@ new epicLinkCrawler("https://google.com")
 
 Just two options are supported for now.
 
-- _depth_ - \_1 to 5\_ (Default 1) | Crawling Depth.
+- _depth_ - 1 to 5 (Default 1) | Crawling Depth.
 - _strict_ - _boolean_ (Default True) | Set to False if you also want to collect links related to other websites.
