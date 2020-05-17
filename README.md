@@ -10,6 +10,7 @@ A simple in depth links crawler. You can easily collect all the links available 
 
 ```
 //Crawl all the links from google.com homepage.
+
 new epicLinkCrawler("https://google.com")
     .config({
         depth: 1,
@@ -21,8 +22,10 @@ new epicLinkCrawler("https://google.com")
     }).catch((error: any) => {
         console.log(error); //Error Here.
     });
+
+
 /**
- * Expected Resuts On Depth 1
+ * Expected Resuts In Depth 1
  *
  * [
     'https://play.google.com/?hl=en&tab=w8',
@@ -43,6 +46,7 @@ new epicLinkCrawler("https://google.com")
     'https://google.com/intl/en/policies/privacy',
     'https://google.com/intl/en/policies/terms'
     ]
+    
  */
 ```
 
