@@ -1,14 +1,18 @@
+/// <reference types="node" />
+/// <reference types="cheerio" />
+import events from 'events';
+import URL from "url-parse";
 declare type options = {
     depth?: Number;
     strict?: Boolean;
 };
 export declare class epicLinkCrawler {
-    private url;
-    private urlObject;
-    private domain;
-    private urlBase;
-    private events;
-    private $;
+    url: string;
+    urlObject: URL;
+    domain: string;
+    urlBase: string;
+    events: events.EventEmitter;
+    $: CheerioAPI;
     protected options: options;
     constructor(url: string, { depth, strict }?: options);
     validUrl(url: string): Promise<unknown>;
