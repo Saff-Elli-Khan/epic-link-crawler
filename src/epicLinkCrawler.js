@@ -229,13 +229,13 @@ class epicLinkCrawler {
         //Assignment
         this.events = new events_1.default.EventEmitter();
         this.$ = cheerio_1.default;
-        this.urlObject = new url_parse_1.default(this.url);
         this.url = url.replace(/^\/+|\/+$/g, "");
+        this.urlObject = new url_parse_1.default(this.url);
         this.domain = extract_domain_1.default(this.url);
         this.options.depth = depth;
         this.options.strict = strict;
         if (this.urlObject.origin == "null")
-            this.events.emit("crawl.error", "Invalid URL Has Been Provided!");
+            throw new Error("Invalid URL Has Been Provided!");
         this.urlBase = this.urlObject.protocol + "//" + this.urlObject.hostname;
         return this;
     }
