@@ -11,7 +11,7 @@ const url_parse_1 = __importDefault(require("url-parse"));
 const extract_domain_1 = __importDefault(require("extract-domain"));
 //The Class
 class epicLinkCrawler {
-    constructor(url) {
+    constructor(url, { depth = 1, strict = true } = {}) {
         this.url = "";
         this.domain = "";
         this.urlBase = "";
@@ -209,6 +209,9 @@ class epicLinkCrawler {
             this.events.on(event, handler);
             return self;
         };
+        this.validUrl(url).catch(error => {
+            throw new Error(error);
+        });
         //Resolve Required Modules
         require.resolve("events");
         require.resolve("request");
@@ -216,16 +219,31 @@ class epicLinkCrawler {
         require.resolve("url-parse");
         //Assignment
         this.events = new events_1.default.EventEmitter();
+        this.urlObject = new url_parse_1.default(this.url);
         this.url = url.replace(/^\/+|\/+$/g, "");
         this.domain = extract_domain_1.default(this.url);
-        this.urlObject = new url_parse_1.default(this.url);
+        this.options.depth = depth;
+        this.options.strict = strict;
         if (this.urlObject.origin == "null")
             this.events.emit("crawl.error", "Invalid URL Has Been Provided!");
         this.urlBase = this.urlObject.protocol + "//" + this.urlObject.hostname;
         return this;
     }
+    validUrl(url) {
+        return new Promise((resolve, reject) => {
+            request_1.default(url, (error, response, content) => {
+                if (error) {
+                    reject(error);
+                }
+                else if (response.statusCode >= 300) {
+                    reject(response.statusMessage);
+                }
+                else {
+                    resolve(content);
+                }
+            });
+        });
+    }
 }
 exports.epicLinkCrawler = epicLinkCrawler;
-//Export Module
-module.exports.epicLinkCrawler = epicLinkCrawler;
 //# sourceMappingURL=epicLinkCrawler.js.map

@@ -9,15 +9,16 @@ export declare class epicLinkCrawler {
     private urlBase;
     private options;
     private events;
-    constructor(url: string);
+    constructor(url: string, { depth, strict }?: options);
+    validUrl(url: string): Promise<unknown>;
     config: ({ depth, strict }?: options) => this;
     getContent: (url: string) => Promise<unknown>;
     collectLinks: (content: any) => string[];
-    level1Crawl: (url?: string, depth?: number) => Promise<unknown>;
-    level2Crawl: (url?: string) => Promise<unknown>;
-    level3Crawl: (url?: string) => Promise<unknown>;
-    level4Crawl: (url?: string) => Promise<unknown>;
-    level5Crawl: (url?: string) => Promise<unknown>;
+    protected level1Crawl: (url?: string, depth?: number) => Promise<unknown>;
+    protected level2Crawl: (url?: string) => Promise<unknown>;
+    protected level3Crawl: (url?: string) => Promise<unknown>;
+    protected level4Crawl: (url?: string) => Promise<unknown>;
+    protected level5Crawl: (url?: string) => Promise<unknown>;
     crawl: (url?: string) => any;
     on: (event: string, handler: any) => this;
 }
