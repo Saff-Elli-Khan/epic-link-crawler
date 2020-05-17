@@ -19,9 +19,9 @@ new epicLinkCrawler.epicLinkCrawler("https://google.com")
         strict: true, //Set strict false if you also want to collect links related to other websites.
     })
     .crawl() //Triggers Crawling
-    .then((data: string[]) => {
+    .then((data) => {
         console.log(data); //Results Here.
-    }).catch((error: any) => {
+    }).catch((error) => {
         console.log(error); //Error Here.
     });
 
