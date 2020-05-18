@@ -77,6 +77,7 @@ class epicLinkCrawler {
                     subject = url;
                 self.getContent(subject).then(content => {
                     let crawledLinks = self.collectLinks(content);
+                    crawledLinks.push(this.url);
                     self.events.emit("level1Crawl.success", crawledLinks);
                     resolve(crawledLinks);
                 }).catch(error => {
