@@ -2,7 +2,7 @@
 /// <reference types="cheerio" />
 import events from 'events';
 import URL from "url-parse";
-declare type options = {
+export declare type options = {
     depth?: Number;
     strict?: Boolean;
 };
@@ -27,5 +27,4 @@ export declare class epicLinkCrawler {
     crawl: (url?: string) => any;
     on: (event: string, handler: any) => this;
 }
-export {};
 //# sourceMappingURL=epicLinkCrawler.d.ts.map
