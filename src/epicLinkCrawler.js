@@ -20,6 +20,21 @@ class epicLinkCrawler {
             depth: 1,
             strict: true,
         };
+        this.validUrl = (url) => {
+            return new Promise((resolve, reject) => {
+                request_1.default(url, (error, response, content) => {
+                    if (error) {
+                        reject(error);
+                    }
+                    else if (response.statusCode >= 300) {
+                        reject(response.statusMessage);
+                    }
+                    else {
+                        resolve(content);
+                    }
+                });
+            });
+        };
         this.config = ({ depth = 1, strict = true } = {}) => {
             let self = this;
             self.options.depth = depth;
@@ -239,21 +254,6 @@ class epicLinkCrawler {
             throw new Error("Invalid URL Has Been Provided!");
         this.urlBase = this.urlObject.protocol + "//" + this.urlObject.hostname;
         return this;
-    }
-    validUrl(url) {
-        return new Promise((resolve, reject) => {
-            request_1.default(url, (error, response, content) => {
-                if (error) {
-                    reject(error);
-                }
-                else if (response.statusCode >= 300) {
-                    reject(response.statusMessage);
-                }
-                else {
-                    resolve(content);
-                }
-            });
-        });
     }
 }
 exports.epicLinkCrawler = epicLinkCrawler;

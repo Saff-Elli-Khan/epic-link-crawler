@@ -15,7 +15,7 @@ export declare class epicLinkCrawler {
     $: CheerioAPI;
     protected options: options;
     constructor(url: string, { depth, strict }?: options);
-    validUrl(url: string): Promise<unknown>;
+    validUrl: (url: string) => Promise<unknown>;
     config: ({ depth, strict }?: options) => this;
     getContent: (url: string) => Promise<unknown>;
     collectLinks: (content: any) => string[];
