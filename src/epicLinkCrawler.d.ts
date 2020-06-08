@@ -2,6 +2,7 @@
 /// <reference types="cheerio" />
 import events from 'events';
 import URL from "url-parse";
+import { epicStorage } from "epic-storage";
 export declare type options = {
     depth?: Number;
     strict?: Boolean;
@@ -13,18 +14,20 @@ export declare class epicLinkCrawler {
     urlBase: string;
     events: events.EventEmitter;
     $: CheerioAPI;
+    storage: epicStorage;
     protected options: options;
     constructor(url: string, { depth, strict }?: options);
     validUrl: (url: string) => Promise<unknown>;
     config: ({ depth, strict }?: options) => this;
     getContent: (url: string) => Promise<unknown>;
+    clearCache: () => this;
     collectLinks: (content: any) => string[];
     protected level1Crawl: (url?: string, depth?: number) => Promise<unknown>;
     protected level2Crawl: (url?: string) => Promise<unknown>;
     protected level3Crawl: (url?: string) => Promise<unknown>;
     protected level4Crawl: (url?: string) => Promise<unknown>;
     protected level5Crawl: (url?: string) => Promise<unknown>;
-    crawl: (url?: string) => any;
+    crawl: (url?: string) => Promise<string[]>;
     on: (event: string, handler: any) => this;
 }
 //# sourceMappingURL=epicLinkCrawler.d.ts.map

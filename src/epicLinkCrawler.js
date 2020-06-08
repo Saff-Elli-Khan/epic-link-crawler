@@ -7,6 +7,7 @@ const events_1 = __importDefault(require("events"));
 const request_1 = __importDefault(require("request"));
 const cheerio_1 = __importDefault(require("cheerio"));
 const url_parse_1 = __importDefault(require("url-parse"));
+const epic_storage_1 = require("epic-storage");
 // @ts-ignore | Because Not Type Declaration Available!
 const extract_domain_1 = __importDefault(require("extract-domain"));
 //The Class
@@ -16,6 +17,7 @@ class epicLinkCrawler {
         this.url = "";
         this.domain = "";
         this.urlBase = "";
+        this.storage = new epic_storage_1.epicStorage;
         this.options = {
             depth: 1,
             strict: true,
@@ -43,10 +45,18 @@ class epicLinkCrawler {
         };
         this.getContent = (url) => {
             return new Promise((resolve, reject) => {
-                request_1.default(url, (error, response, content) => {
-                    resolve(content);
-                });
+                if (this.storage.hasItem(url))
+                    resolve(this.storage.getItem(url));
+                else
+                    request_1.default(url, (error, response, content) => {
+                        this.storage.addSchema("epicLinkCrawler").addItem(url, content);
+                        resolve(content);
+                    });
             });
+        };
+        this.clearCache = () => {
+            this.storage.destroy();
+            return this;
         };
         this.collectLinks = (content) => {
             let self = this;
@@ -90,14 +100,13 @@ class epicLinkCrawler {
                 let subject = self.url;
                 if (url != "")
                     subject = url;
-                self.getContent(subject).then(content => {
+                self.getContent(subject).then((content) => {
                     let crawledLinks = self.collectLinks(content);
                     crawledLinks.push(this.url);
                     self.events.emit("level1Crawl.success", crawledLinks);
+                    //Log
+                    console.log(url);
                     resolve(crawledLinks);
-                }).catch(error => {
-                    self.events.emit("level1Crawl.error", error);
-                    reject(error);
                 });
             });
         };
@@ -227,7 +236,8 @@ class epicLinkCrawler {
         };
         this.crawl = (url = "") => {
             let self = this;
-            return self["level" + self.options.depth + "Crawl"](url);
+            let result = self["level" + self.options.depth + "Crawl"](url);
+            return result;
         };
         this.on = (event, handler) => {
             let self = this;
