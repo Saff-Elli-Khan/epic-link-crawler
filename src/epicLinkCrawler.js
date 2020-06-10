@@ -8,7 +8,7 @@ const request_1 = __importDefault(require("request"));
 const cheerio_1 = __importDefault(require("cheerio"));
 const url_parse_1 = __importDefault(require("url-parse"));
 const epic_storage_1 = require("epic-storage");
-// @ts-ignore | Because Not Type Declaration Available!
+// @ts-ignore | Because No Type Declaration Available!
 const extract_domain_1 = __importDefault(require("extract-domain"));
 //The Class
 class epicLinkCrawler {
