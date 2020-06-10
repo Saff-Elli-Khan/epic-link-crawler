@@ -16,7 +16,7 @@
     "@types/request": "^2.48.5",
     "@types/url-parse": "^1.4.3",
     "cheerio": "^1.0.0-rc.3",
-    "epic-storage": "^1.0.15",
+    "epic-storage": "^1.0.17",
     "extract-domain": "^2.2.1",
     "request": "^2.88.2",
     "url-parse": "^1.4.7"
