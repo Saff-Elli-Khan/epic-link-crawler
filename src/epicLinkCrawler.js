@@ -17,11 +17,12 @@ class epicLinkCrawler {
         this.url = "";
         this.domain = "";
         this.urlBase = "";
-        this.storage = new epic_storage_1.epicStorage;
+        this.storage = new epic_storage_1.epicStorage({ logs: false });
         this.options = {
             depth: 1,
             strict: true,
         };
+        this.urlCache = [];
         this.validUrl = (url) => {
             return new Promise((resolve, reject) => {
                 request_1.default(url, (error, response, content) => {
@@ -44,18 +45,36 @@ class epicLinkCrawler {
             return self;
         };
         this.getContent = (url) => {
-            return new Promise((resolve, reject) => {
-                if (this.storage.hasItem(url))
-                    resolve(this.storage.getItem(url));
-                else
-                    request_1.default(url, (error, response, content) => {
-                        this.storage.addSchema("epicLinkCrawler").addItem(url, content);
-                        resolve(content);
+            return new Promise((resolve) => {
+                this.storage.init().then(() => {
+                    this.storage.addSchema("epicLinkCrawler", true).then(() => {
+                        this.storage.hasItem(url).then((data) => {
+                            resolve(data);
+                            //Log
+                            console.log("Loaded From Cache. (You can clear cache by calling clearCache() method.)");
+                        }).catch(error => {
+                            request_1.default(url, (error, response, content) => {
+                                var _a, _b;
+                                if (((_b = (_a = response.headers['content-type']) === null || _a === void 0 ? void 0 : _a.toLowerCase()) === null || _b === void 0 ? void 0 : _b.search("text/html")) != -1)
+                                    this.storage.addItem(url, content).then(() => {
+                                        resolve(content);
+                                    }).catch(() => {
+                                        resolve(content);
+                                    });
+                                else
+                                    resolve("");
+                            });
+                            //Log
+                            console.log("Fresh Fetch - ", "Cache Error: ", error);
+                        });
                     });
+                }).catch(() => {
+                    console.log("Error here");
+                });
             });
         };
         this.clearCache = () => {
-            this.storage.destroy();
+            this.storage.clearSchema();
             return this;
         };
         this.collectLinks = (content) => {
@@ -94,20 +113,28 @@ class epicLinkCrawler {
             });
             return Array.from(new Set(absoluteLinksArray.concat(relativeLinksArray)));
         };
-        this.level1Crawl = (url = "", depth = 1) => {
+        this.level1Crawl = (url = "") => {
             let self = this;
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 let subject = self.url;
                 if (url != "")
                     subject = url;
-                self.getContent(subject).then((content) => {
-                    let crawledLinks = self.collectLinks(content);
-                    crawledLinks.push(this.url);
-                    self.events.emit("level1Crawl.success", crawledLinks);
-                    //Log
-                    console.log(url);
-                    resolve(crawledLinks);
-                });
+                if (this.urlCache.includes(subject)) {
+                    resolve([]);
+                }
+                else {
+                    self.getContent(subject).then((content) => {
+                        if (!this.urlCache.includes(subject))
+                            this.urlCache.push(subject);
+                        let crawledLinks = self.collectLinks(content);
+                        if (!crawledLinks.includes(this.url))
+                            crawledLinks.push(this.url);
+                        self.events.emit("level1Crawl.success", crawledLinks);
+                        //Log
+                        console.log(url);
+                        resolve(crawledLinks);
+                    });
+                }
             });
         };
         this.level2Crawl = (url = "") => {
@@ -247,11 +274,6 @@ class epicLinkCrawler {
         this.validUrl(url).catch(error => {
             throw new Error(error);
         });
-        //Resolve Required Modules
-        require.resolve("events");
-        require.resolve("request");
-        require.resolve("cheerio");
-        require.resolve("url-parse");
         //Assignment
         this.events = new events_1.default.EventEmitter();
         this.$ = cheerio_1.default;
@@ -260,6 +282,7 @@ class epicLinkCrawler {
         this.domain = extract_domain_1.default(this.url);
         this.options.depth = depth;
         this.options.strict = strict;
+        this.storage.init();
         if (this.urlObject.origin == "null")
             throw new Error("Invalid URL Has Been Provided!");
         this.urlBase = this.urlObject.protocol + "//" + this.urlObject.hostname;

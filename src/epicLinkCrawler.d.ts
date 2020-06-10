@@ -16,13 +16,14 @@ export declare class epicLinkCrawler {
     $: CheerioAPI;
     storage: epicStorage;
     protected options: options;
+    protected urlCache: string[];
     constructor(url: string, { depth, strict }?: options);
     validUrl: (url: string) => Promise<unknown>;
     config: ({ depth, strict }?: options) => this;
     getContent: (url: string) => Promise<unknown>;
     clearCache: () => this;
     collectLinks: (content: any) => string[];
-    protected level1Crawl: (url?: string, depth?: number) => Promise<unknown>;
+    protected level1Crawl: (url?: string) => Promise<unknown>;
     protected level2Crawl: (url?: string) => Promise<unknown>;
     protected level3Crawl: (url?: string) => Promise<unknown>;
     protected level4Crawl: (url?: string) => Promise<unknown>;
