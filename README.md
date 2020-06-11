@@ -13,18 +13,19 @@ const epicLinkCrawler = require("epic-link-crawler");
 
 //Crawl all the links from google.com homepage.
 
-new epicLinkCrawler.epicLinkCrawler("https://google.com")
-    .config({
-        depth: 1,
-        strict: true, //Set strict false if you also want to collect links related to other websites.
-    })
-    .crawl() //Triggers Crawling
-    .then((data) => {
-        console.log(data); //Results Here.
-    }).catch((error) => {
-        console.log(error); //Error Here.
-    });
+const crawler = new epicLinkCrawler;
 
+crawler.init("https://google.com", {
+    depth: 5,
+    strict: true,
+    cache: true,
+}).then(() => {
+    crawler.crawl().then(data => {
+        console.log(data);
+    });
+}).catch(error => {
+    console.log(error);
+});
 
 /**
  * Expected Resuts In Depth 1
@@ -54,7 +55,18 @@ new epicLinkCrawler.epicLinkCrawler("https://google.com")
 
 ## Options
 
-Just two options are supported for now.
+Just three options are supported for now.
 
 - _depth_ - 1 to 5 (Default 1) | Crawling Depth.
 - _strict_ - _boolean_ (Default True) | Set to False if you also want to collect links related to other websites.
+- _cache_ - _boolean_ (Default True) | Speeds up the crawl by saving data in the cache.
+
+## Methods
+
+- **_init: (url: string, { depth, strict, cache }?: options) => Promise<unknown>_** - Initialize crawler.
+- **_validUrl: (url: string) => Promise<unknown>_** - Validate url.
+- **_config: ({ depth, strict, cache }?: options) => this_** - Update Configuration.
+- **_getContent: (url: string) => Promise<unknown>_** - Get content from url.
+- **_clearCache: () => this_** - Clear previous crawled cache.
+- **_collectLinks: (content: any) => string[]_** - Collect all links from html content.
+- **_crawl: (url?: string) => Promise<unknown>_** - Start Crawling.

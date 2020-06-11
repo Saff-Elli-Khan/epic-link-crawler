@@ -18,6 +18,7 @@
     "cheerio": "^1.0.0-rc.3",
     "epic-storage": "^1.0.17",
     "extract-domain": "^2.2.1",
+    "html-minifier": "^4.0.0",
     "request": "^2.88.2",
     "url-parse": "^1.4.7"
   },
@@ -31,7 +32,9 @@
     "links",
     "scraper"
   ],
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/html-minifier": "^3.5.3"
+  },
   "homepage": "https://github.com/Saff-Elli-Khan/epic-link-crawler#readme",
   "repository": {
     "type": "git",
