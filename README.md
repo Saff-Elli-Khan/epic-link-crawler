@@ -9,8 +9,6 @@ A simple in depth links crawler. You can easily collect all the links available 
 ## Usage
 
 ```
-const epicLinkCrawler = require("epic-link-crawler");
-
 //Crawl all the links from google.com homepage.
 
 const crawler = new epicLinkCrawler;
