@@ -20,15 +20,15 @@ class epicLinkCrawler {
         this.domain = "";
         this.urlBase = "";
         this.storage = new epic_storage_1.epicStorage({ logs: false });
+        this.cacheName = "epicLinkCrawler";
+        this.urlCache = [];
+        this.cacheChanged = false;
+        this.contentCache = {};
         this.options = {
             depth: 1,
             strict: true,
             cache: true,
         };
-        this.cacheName = "epicLinkCrawler";
-        this.urlCache = [];
-        this.cacheChanged = false;
-        this.contentCache = {};
         this.init = (url, { depth = 1, strict = true, cache = true } = {}) => {
             return new Promise((resolve, reject) => {
                 this.validUrl(url).then(() => {

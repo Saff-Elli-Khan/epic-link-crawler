@@ -16,11 +16,11 @@ export declare class epicLinkCrawler {
     events: events.EventEmitter;
     $: CheerioAPI;
     storage: epicStorage;
-    protected options: options;
-    protected cacheName: string;
+    cacheName: string;
     protected urlCache: string[];
     protected cacheChanged: boolean;
     protected contentCache: ITEMS;
+    protected options: options;
     constructor();
     init: (url: string, { depth, strict, cache }?: options) => Promise<unknown>;
     validUrl: (url: string) => Promise<unknown>;
