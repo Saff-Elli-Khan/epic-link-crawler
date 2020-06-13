@@ -21,12 +21,15 @@ export declare class epicLinkCrawler {
     protected cacheChanged: boolean;
     protected contentCache: ITEMS;
     protected options: options;
+    protected urlBlackList: (string | RegExp)[];
     constructor();
     init: (url: string, { depth, strict, cache }?: options) => Promise<unknown>;
+    blackList: (fingerPrintList: (string | RegExp)[]) => void;
     validUrl: (url: string) => Promise<unknown>;
     config: ({ depth, strict, cache }?: options) => this;
     getContent: (url: string) => Promise<unknown>;
     clearCache: () => this;
+    filterLinks: (links: string[]) => string[];
     collectLinks: (content: any) => string[];
     protected level1Crawl: (url?: string) => Promise<unknown>;
     protected level2Crawl: (url?: string) => Promise<unknown>;

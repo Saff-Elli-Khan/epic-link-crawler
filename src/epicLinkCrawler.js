@@ -9,6 +9,7 @@ const cheerio_1 = __importDefault(require("cheerio"));
 const url_parse_1 = __importDefault(require("url-parse"));
 const epic_storage_1 = require("epic-storage");
 const html_minifier_1 = require("html-minifier");
+const perf_hooks_1 = require("perf_hooks");
 // @ts-ignore | Because No Type Declaration Available!
 const extract_domain_1 = __importDefault(require("extract-domain"));
 //The Class
@@ -29,6 +30,7 @@ class epicLinkCrawler {
             strict: true,
             cache: true,
         };
+        this.urlBlackList = [];
         this.init = (url, { depth = 1, strict = true, cache = true } = {}) => {
             return new Promise((resolve, reject) => {
                 this.validUrl(url).then(() => {
@@ -60,6 +62,9 @@ class epicLinkCrawler {
                     reject(error);
                 });
             });
+        };
+        this.blackList = (fingerPrintList) => {
+            this.urlBlackList = fingerPrintList;
         };
         this.validUrl = (url) => {
             return new Promise((resolve, reject) => {
@@ -130,6 +135,16 @@ class epicLinkCrawler {
         this.clearCache = () => {
             this.storage.clearSchema(this.cacheName);
             return this;
+        };
+        this.filterLinks = (links) => {
+            return links.filter(link => {
+                let allow = true;
+                this.urlBlackList.forEach((v) => {
+                    if ((new RegExp(v)).test(link))
+                        allow = false;
+                });
+                return allow;
+            });
         };
         this.collectLinks = (content) => {
             let self = this;
@@ -315,11 +330,16 @@ class epicLinkCrawler {
         };
         this.crawl = (url = "") => {
             let self = this;
+            let p0 = perf_hooks_1.performance.now();
             return new Promise((resolve, reject) => {
                 let result = self["level" + self.options.depth + "Crawl"](url);
-                result.then(resolve).catch(reject).finally(() => {
+                result.then((links) => {
+                    resolve(this.filterLinks(links));
+                }).catch(reject).finally(() => {
                     if (this.options.cache && this.cacheChanged)
                         this.storage.addItems(this.contentCache, this.cacheName);
+                    let p1 = perf_hooks_1.performance.now();
+                    console.log("\n\nProcess Took " + ((p1 - p0).toFixed(2)) + " Milliseconds.\n\n");
                 });
             });
         };

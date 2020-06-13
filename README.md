@@ -62,6 +62,7 @@ Just three options are supported for now.
 ## Methods
 
 - **_init: (url: string, { depth, strict, cache }?: options) => Promise<unknown>_** - Initialize crawler.
+- **_blackList: (fingerPrintList: (string | RegExp)[]) => void_** - Black List Links.
 - **_validUrl: (url: string) => Promise<unknown>_** - Validate url.
 - **_config: ({ depth, strict, cache }?: options) => this_** - Update Configuration.
 - **_getContent: (url: string) => Promise<unknown>_** - Get content from url.
