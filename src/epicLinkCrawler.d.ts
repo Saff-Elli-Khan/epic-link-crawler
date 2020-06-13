@@ -24,7 +24,7 @@ export declare class epicLinkCrawler {
     protected urlBlackList: (string | RegExp)[];
     constructor();
     init: (url: string, { depth, strict, cache }?: options) => Promise<unknown>;
-    blackList: (fingerPrintList: (string | RegExp)[]) => void;
+    blackList: (fingerPrintList: (string | RegExp)[]) => this;
     validUrl: (url: string) => Promise<unknown>;
     config: ({ depth, strict, cache }?: options) => this;
     getContent: (url: string) => Promise<unknown>;

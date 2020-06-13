@@ -65,6 +65,7 @@ class epicLinkCrawler {
         };
         this.blackList = (fingerPrintList) => {
             this.urlBlackList = fingerPrintList;
+            return this;
         };
         this.validUrl = (url) => {
             return new Promise((resolve, reject) => {
